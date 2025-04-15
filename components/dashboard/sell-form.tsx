@@ -254,7 +254,7 @@ export function SellForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="author">Author Name</Label>
+            <Label htmlFor="author">Seller Name</Label>
             <Input id="author" value={sellerName} onChange={(e) => setsellerName(e.target.value)} placeholder="Enter the author name" />
           </div>
 
