@@ -1,5 +1,5 @@
-import { SellForm } from "@/components/sell-form"
-import { DashboardHeader } from "@/components/dashboard-header"
+import { SellForm } from "@/components/dashboard/sell-form"
+import { DashboardHeader } from "@/components/dashboard/dashboard-header"
 
 export default function SellPage() {
   return (

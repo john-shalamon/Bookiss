@@ -14,7 +14,7 @@ export function BookCard({ book, onClick }: BookCardProps) {
   return (
     <Card className="overflow-hidden transition-all duration-200 hover:shadow-lg">
       {/* <div className="p-4">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white">{book.author}</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">{book.seller_name}</h2>
       </div> */}
       <div className="relative h-48 bg-gray-100 dark:bg-gray-700">
         {book.image_url ? (
@@ -25,7 +25,7 @@ export function BookCard({ book, onClick }: BookCardProps) {
       </div>
 
       <CardContent className="p-4">
-        <h3 className="font-semibold text-lg line-clamp-1 text-gray-900 dark:text-white">{book.book_name}</h3>
+        <h3 className="font-semibold text-lg line-clamp-1 text-black dark:text-white">{book.title}</h3>
         <p className="text-purple-600 dark:text-purple-400 font-bold mt-1">₹{book.price.toFixed(2)}</p>
       </CardContent>
 

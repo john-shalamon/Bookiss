@@ -58,14 +58,19 @@ export function DashboardHeader() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
+    // Ensure the search query is not empty or invalid
+    if (!searchQuery.trim()) {
+      toast({
+        title: "Search query cannot be empty",
+        variant: "destructive",
+      })
+      return
+    }
+
     // The search functionality will be handled by the BookGrid component
     // We'll just update the URL to include the search query
     const params = new URLSearchParams(window.location.search)
-    if (searchQuery) {
-      params.set("search", searchQuery)
-    } else {
-      params.delete("search")
-    }
+    params.set("search", searchQuery)
 
     const newUrl = `${window.location.pathname}?${params.toString()}`
     window.history.pushState({}, "", newUrl)
@@ -114,6 +119,10 @@ export function DashboardHeader() {
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => router.push("/userdashboard")}>
+                    <User className="mr-2 h-4 w-4" />
+                    User Dashboard
+                    </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleLogout}>
                     <LogOut className="mr-2 h-4 w-4" />
                     Logout

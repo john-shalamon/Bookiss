@@ -17,7 +17,9 @@ import { v4 as uuidv4 } from "uuid"
 
 export function SellForm() {
   const [bookName, setBookName] = useState("")
-  const [authorName, setAuthorName] = useState("")
+  const [sellerName, setsellerName] = useState("")
+  const [subjectName, setSubjectName] = useState("")
+  const [edition, setEdition] = useState("")
   const [price, setPrice] = useState("")
   const [description, setDescription] = useState("")
   const [contactNumber, setContactNumber] = useState("")
@@ -137,20 +139,24 @@ export function SellForm() {
       // Upload images
       const bookImageUrl = await uploadImage(bookImage, "book-images");
       const qrCodeUrl = qrCode ? await uploadImage(qrCode, "qr-codes") : null;
+      const sellerImageUrl = sellerImage ? await uploadImage(sellerImage, "seller-images") : null;
   
       // Insert book (match your schema!)
       const { error } = await supabase.from("books").insert([
         {
           title: bookName,
-          author:  authorName || "Unknown", 
-          description: "", 
+          seller_name: sellerName || "Unknown",
+          description: description || null,
           price: Number(price),
-          contact_number: contactNumber,
-          condition: "Good", 
+          condition: "Good",
+          subject: subjectName || null,
+          edition: edition || null,
           image_url: bookImageUrl,
-          qr_code_url: qrCodeUrl,
-          payment_method: paymentMethods.join(", "),
+          qr_code_url: qrCodeUrl || null,
+          payment_method: paymentMethods.join(", ") || null,
           user_id: user.id,
+          contact_number: contactNumber ? Number(contactNumber) : null,
+          seller_image: sellerImageUrl || null,
         },
       ]);
 
@@ -244,12 +250,34 @@ export function SellForm() {
 
           <div className="space-y-2">
             <Label htmlFor="book-name">Book Name</Label>
-            <Input id="book-name" value={bookName} onChange={(e) => setBookName(e.target.value)} required />
+            <Input id="book-name" value={bookName} onChange={(e) => setBookName(e.target.value)} placeholder="Enter the book name" required />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="author">Author Name</Label>
-            <Input id="author" value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
+            <Input id="author" value={sellerName} onChange={(e) => setsellerName(e.target.value)} placeholder="Enter the author name" />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="subject-name">Subject Name</Label>
+            <Input
+              id="subject-name"
+              value={subjectName}
+              onChange={(e) => setSubjectName(e.target.value)}
+              placeholder="Enter the subject name"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="edition">Edition</Label>
+            <Input
+              id="edition"
+              value={edition}
+              onChange={(e) => setEdition(e.target.value)}
+              placeholder="Enter the edition of the book"
+              required
+            />
           </div>
 
           <div className="space-y-2">
@@ -271,6 +299,7 @@ export function SellForm() {
               step="0.01"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
+              placeholder="Enter the price of the book"
               required
             />
           </div>
@@ -282,6 +311,8 @@ export function SellForm() {
               type="tel"
               value={contactNumber}
               onChange={(e) => setContactNumber(e.target.value)}
+              placeholder="Enter your contact number"
+              maxLength={10}
               required
             />
           </div>
@@ -349,23 +380,23 @@ export function SellForm() {
             </div>
           </div>
 
-          <div className="space-y-3">
-            <Label>Payment Methods</Label>
-            <div className="grid grid-cols-2 gap-2">
-              {["Cash", "Google Pay", "PhonePe"].map((method) => (
-                <div key={method} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={`payment-${method}`}
-                    checked={paymentMethods.includes(method)}
-                    onCheckedChange={() => handlePaymentMethodChange(method)}
-                  />
-                  <Label htmlFor={`payment-${method}`} className="font-normal">
-                    {method}
-                  </Label>
-                </div>
+            <div className="space-y-3">
+            <Label>Payment Method</Label>
+            <div className="grid grid-cols-1 gap-2">
+              {["Cash", "Google Pay", "Phone Pay"].map((method) => (
+              <div key={method} className="flex items-center space-x-2">
+                <Checkbox
+                id={`payment-${method}`}
+                checked={paymentMethods.includes(method)}
+                onCheckedChange={() => setPaymentMethods([method])}
+                />
+                <Label htmlFor={`payment-${method}`} className="font-normal">
+                {method}
+                </Label>
+              </div>
               ))}
             </div>
-          </div>
+            </div>
 
           <div className="space-y-2">
             <Label htmlFor="qr-code">Payment QR Code (Optional)</Label>

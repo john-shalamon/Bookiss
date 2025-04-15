@@ -24,7 +24,7 @@ export function BookGrid() {
       let query = supabase.from("books").select("*")
 
       if (search) {
-        query = query.ilike("book_name", `%${search}%`)
+        query = query.ilike("title", `%${search}%`)
       }
 
       const { data, error } = await query.order("created_at", { ascending: false })

@@ -17,7 +17,9 @@ export function BookDetailsModal({ book, isOpen, onClose }: BookDetailsModalProp
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{book.title}</DialogTitle>
+            <DialogTitle>
+            <span className="text-purple-600 dark:text-purple-400">{book.title}</span>
+            </DialogTitle>
           <DialogDescription>Contact the seller to purchase this book</DialogDescription>
         </DialogHeader>
 
@@ -25,18 +27,18 @@ export function BookDetailsModal({ book, isOpen, onClose }: BookDetailsModalProp
           <div className="flex items-center gap-4">
             <div className="relative h-16 w-16 rounded-full overflow-hidden bg-gray-100">
               {book.seller_image ? (
-                <Image
-                  src={book.seller_image || "/placeholder.svg"}
-                  alt={book.seller_name}
-                  fill
-                  className="object-cover"
-                />
+          <Image
+            src={book.seller_image || "/placeholder.svg"}
+            alt={book.seller_name}
+            fill
+            className="object-cover"
+          />
               ) : (
-                <User className="h-8 w-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-400" />
+          <User className="h-8 w-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-400" />
               )}
             </div>
             <div>
-              <h4 className="font-medium text-gray-900 dark:text-white">{book.title}</h4>
+              <h4 className="font-medium text-gray-900 dark:text-white">{book.seller_name}</h4>
               <p className="text-sm text-gray-500 dark:text-gray-400">Seller</p>
             </div>
           </div>
@@ -59,16 +61,16 @@ export function BookDetailsModal({ book, isOpen, onClose }: BookDetailsModalProp
             <h4 className="font-medium text-gray-900 dark:text-white mb-2">Payment Methods</h4>
             <div className="flex flex-wrap gap-2">
               <span className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-md text-sm">
-              {book.payment_method}
+          {book.payment_method}
               </span>
             </div>
           </div>
 
-          {book.qr_code && (
+          {["Google Pay", "Phone Pay"].includes(book.payment_method) && book.qr_code_url && (
             <div>
               <h4 className="font-medium text-gray-900 dark:text-white mb-2">Payment QR Code</h4>
               <div className="relative h-48 w-48 mx-auto bg-white p-2 rounded-md">
-                <Image src={book.qr_code || "/placeholder.svg"} alt="Payment QR Code" fill className="object-contain" />
+          <Image src={book.qr_code_url || "/placeholder.svg"} alt="Payment QR Code" fill className="object-contain" />
               </div>
             </div>
           )}

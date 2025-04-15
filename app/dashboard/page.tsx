@@ -1,5 +1,5 @@
-import { DashboardHeader } from "@/components/dashboard-header"
-import { BookGrid } from "@/components/book-grid"
+import { DashboardHeader } from "@/components/dashboard/dashboard-header"
+import { BookGrid } from "@/components/dashboard/book-grid"
 import { Suspense } from "react"
 import { BookGridSkeleton } from "@/components/book-grid-skeleton"
 
